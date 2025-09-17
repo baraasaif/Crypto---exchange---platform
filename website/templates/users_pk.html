@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+معلومات المستخدمين
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="text-center bg-secondary text-white">اسم المستخدم</th>
+                <th scope="col" class="text-center bg-secondary text-white">الإيميل</th>
+                <th scope="col" class="text-center bg-secondary text-white">المفتاح العام</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td class="text-center">{{ user.username }}</td>
+                <td class="text-center">{{ user.email }}</td>
+                <td class="text-center">{{ user.wallet.public_key }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+الصفحة الرئيسية
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1 class="mt-5">أهلاً بك، {{ user.username }}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title"> رصيد المحفظة الحالي: <strong>{{ user.wallet.balance }} وحدة</strong></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-5"> محتويات سلسلة الكتل</h2>
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">رقم الكتلة</th>
+                        <th style="width: 15%;">المرسل</th>
+                        <th style="width: 15%;">المستقبل</th>
+                        <th style="width: 10%;">المبلغ</th>
+                        <th style="width: 20%;">التجزئة السابقة</th>
+                        <th style="width: 20%;">التجزئة الحالية</th>
+                        <th style="width: 10%;">الإثبات</th>
+                        <th style="width: 10%;">التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for block in blocks %}
+                    <tr>
+                        <td>{{ block.block_number }}</td>
+                        <td>{{ block.transaction.sender_wallet.user.username }}</td>
+                        <td>{{ block.transaction.receiver_wallet.user.username }}</td>
+                        <td>{{ block.transaction.amount }} وحدة</td>
+                        <td style="word-break: break-word;">{{ block.previous_hash }}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm show-hash-btn" onclick="toggleHash(this)">إظهار التجزئة</button>
+                            <span class="hash-content d-none">{{ block.current_hash }}</span>
+                        </td>
+                        <td>{{ block.proof }}</td>
+                        <td>{{ block.transaction.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/transaction" class="btn btn-primary mt-3">إجراء مناقلة جديدة</a>
+    </div>
+
+    <script>
+        function toggleHash(button) {
+            // الحصول على عنصر النص
+            const hashContent = button.nextElementSibling;
+
+            // تبديل عرض النص
+            if (hashContent.classList.contains('d-none')) {
+                hashContent.classList.remove('d-none');
+                button.textContent = 'إخفاء التجزئة';
+            } else {
+                hashContent.classList.add('d-none');
+                button.textContent = 'إظهار التجزئة';
+            }
+        }
+    </script>
+
+    <style>
+        .hash-content {
+            display: inline-block;
+            margin-left: 10px;
+            word-break: break-word;
+        }
+    </style>
+
+{% endblock %}

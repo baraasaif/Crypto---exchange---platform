@@ -1,0 +1,27 @@
+{% extends 'layout.html'%}
+
+{% block title %}
+إجراء مناقلة
+{% endblock %}
+
+{% block content %}
+
+   <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <h1 class="mt-5 text-center">إرسال مناقلة جديدة</h1>
+            <div class="col-md-6">
+                <form action="/transaction" method="POST" class="mt-3">
+                    <div class="mb-3">
+                        <label for="receiver_public_key" class="form-label">المفتاح العام للمستقبل</label>
+                        <input type="text" class="form-control" id="receiver_public_key" name="receiver_public_key" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">المبلغ</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">إرسال المعاملة</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
